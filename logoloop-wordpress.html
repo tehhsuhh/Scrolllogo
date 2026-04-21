@@ -1,0 +1,281 @@
+<!--
+  LogoLoop — WordPress Custom HTML Block
+  =======================================
+  Paste this entire file into a Custom HTML block.
+
+  TO CUSTOMIZE:
+  1. Replace the <img> src values with your own logo URLs
+  2. Update the href values on each <a> tag
+  3. Adjust the config variables at the top of the <script> (speed, height, gap, etc.)
+  4. Change --ll-bg to match your page background color (for the fade effect)
+
+  TO ADD MORE LOGOS: copy any <li class="ll-item">...</li> block and paste it inside the <ul>
+  TO REMOVE LOGOS:   delete any <li class="ll-item">...</li> block
+-->
+
+<style>
+  .ll-wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    /* ↓ match this to your page/section background color */
+    --ll-bg: #ffffff;
+  }
+
+  .ll-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    user-select: none;
+    align-items: center;
+  }
+
+  .ll-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ll-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ll-item img {
+    display: block;
+    width: auto;
+    object-fit: contain;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity  0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ll-item a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .ll-item a:hover img {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+
+  .ll-item a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  /* fade edges */
+  .ll-wrap::before,
+  .ll-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 8%, 100px);
+    pointer-events: none;
+    z-index: 10;
+  }
+  .ll-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, var(--ll-bg) 0%, transparent 100%);
+  }
+  .ll-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, var(--ll-bg) 0%, transparent 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ll-track { transform: translate3d(0, 0, 0) !important; }
+    .ll-item img { transition: none !important; }
+  }
+</style>
+
+<div class="ll-wrap" id="ll-instance-1">
+  <div class="ll-track">
+    <ul class="ll-list">
+
+      <!-- ============================================================
+           YOUR LOGOS GO HERE
+           Each logo follows this pattern:
+
+           With a link:
+             <li class="ll-item">
+               <a href="https://yourlink.com" target="_blank" rel="noopener noreferrer">
+                 <img src="https://your-logo-url.com/logo.png" alt="Company Name">
+               </a>
+             </li>
+
+           Without a link:
+             <li class="ll-item">
+               <img src="https://your-logo-url.com/logo.png" alt="Company Name">
+             </li>
+
+           Demo logos below — replace src and href with your own:
+           ============================================================ -->
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+1" alt="Company 1">
+        </a>
+      </li>
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+2" alt="Company 2">
+        </a>
+      </li>
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+3" alt="Company 3">
+        </a>
+      </li>
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+4" alt="Company 4">
+        </a>
+      </li>
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+5" alt="Company 5">
+        </a>
+      </li>
+
+      <li class="ll-item">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+6" alt="Company 6">
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ── CONFIGURATION ───────────────────────────────────────────────── */
+  var LOGO_HEIGHT  = 48;    /* logo image height in px                  */
+  var GAP          = 48;    /* space between logos in px                 */
+  var SPEED        = 80;    /* scroll speed in px/second                 */
+  var HOVER_SPEED  = 0;     /* speed while hovered (0 = pause, or lower) */
+  var SMOOTH_TAU   = 0.25;  /* easing smoothness (higher = slower ease)  */
+  /* ─────────────────────────────────────────────────────────────────── */
+
+  var wrap     = document.getElementById('ll-instance-1');
+  var track    = wrap.querySelector('.ll-track');
+  var origList = wrap.querySelector('.ll-list');
+
+  /* apply logo height and gap via inline style so config stays in one place */
+  wrap.style.height = LOGO_HEIGHT * 1.5 + 'px';
+  var items = origList.querySelectorAll('.ll-item');
+  items.forEach(function (item, i) {
+    item.style.marginRight = GAP + 'px';
+  });
+  origList.querySelectorAll('img').forEach(function (img) {
+    img.style.height = LOGO_HEIGHT + 'px';
+  });
+
+  var seqWidth  = 0;
+  var velocity  = 0;
+  var offset    = 0;
+  var isHovered = false;
+  var lastTime  = null;
+  var rafId     = null;
+  var clones    = [];
+
+  function setup() {
+    clones.forEach(function (c) { if (c.parentNode) c.parentNode.removeChild(c); });
+    clones = [];
+
+    seqWidth = Math.ceil(origList.getBoundingClientRect().width);
+    if (seqWidth === 0) return;
+
+    var containerWidth  = wrap.clientWidth;
+    var copiesNeeded    = Math.max(2, Math.ceil(containerWidth / seqWidth) + 2);
+
+    for (var i = 0; i < copiesNeeded; i++) {
+      var clone = origList.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      /* apply height/gap to cloned items too */
+      clone.querySelectorAll('.ll-item').forEach(function (item) {
+        item.style.marginRight = GAP + 'px';
+      });
+      clone.querySelectorAll('img').forEach(function (img) {
+        img.style.height = LOGO_HEIGHT + 'px';
+      });
+      track.appendChild(clone);
+      clones.push(clone);
+    }
+  }
+
+  function animate(timestamp) {
+    if (lastTime === null) lastTime = timestamp;
+    var dt = Math.max(0, timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    var target        = isHovered ? HOVER_SPEED : SPEED;
+    var easingFactor  = 1 - Math.exp(-dt / SMOOTH_TAU);
+    velocity         += (target - velocity) * easingFactor;
+
+    if (seqWidth > 0) {
+      offset = ((offset + velocity * dt) % seqWidth + seqWidth) % seqWidth;
+      track.style.transform = 'translate3d(' + (-offset) + 'px, 0, 0)';
+    }
+
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function start() {
+    if (rafId) cancelAnimationFrame(rafId);
+    lastTime = null;
+    rafId    = requestAnimationFrame(animate);
+  }
+
+  wrap.addEventListener('mouseenter', function () { isHovered = true; });
+  wrap.addEventListener('mouseleave', function () { isHovered = false; });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setup, 100);
+  });
+
+  /* wait for images before measuring widths */
+  var imgs    = Array.prototype.slice.call(origList.querySelectorAll('img'));
+  var pending = imgs.length;
+
+  function onReady() {
+    setup();
+    start();
+  }
+
+  if (pending === 0) {
+    onReady();
+    return;
+  }
+
+  imgs.forEach(function (img) {
+    if (img.complete) {
+      pending--;
+      if (pending === 0) onReady();
+    } else {
+      function done() {
+        pending--;
+        if (pending === 0) onReady();
+      }
+      img.addEventListener('load',  done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    }
+  });
+})();
+</script>
