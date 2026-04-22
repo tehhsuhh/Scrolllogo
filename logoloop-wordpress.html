@@ -1,16 +1,28 @@
 <!--
   LogoLoop — WordPress Custom HTML Block
   =======================================
-  Paste this entire file into a Custom HTML block.
+  Paste this entire snippet into a Custom HTML block.
 
-  TO CUSTOMIZE:
-  1. Replace the <img> src values with your own logo URLs
-  2. Update the href values on each <a> tag
-  3. Adjust the config variables at the top of the <script> (speed, height, gap, etc.)
-  4. Change --ll-bg to match your page background color (for the fade effect)
+  TO USE YOUR OWN LOGOS
+  ─────────────────────
+  Replace each inline <svg> block with an <img> tag pointing to your
+  WordPress Media Library URL, e.g.:
 
-  TO ADD MORE LOGOS: copy any <li class="ll-item">...</li> block and paste it inside the <ul>
-  TO REMOVE LOGOS:   delete any <li class="ll-item">...</li> block
+    <li class="ll-item">
+      <a href="https://yoursite.com" target="_blank" rel="noopener noreferrer">
+        <img src="https://yoursite.com/wp-content/uploads/logo.png" alt="Company Name">
+      </a>
+    </li>
+
+  Or without a link:
+
+    <li class="ll-item">
+      <img src="https://yoursite.com/wp-content/uploads/logo.png" alt="Company Name">
+    </li>
+
+  TO ADJUST SETTINGS: edit the config variables near the bottom in the <script> block.
+  TO ADD MORE LOGOS:  copy any <li class="ll-item">…</li> and paste it inside the <ul>.
+  TO CHANGE FADE COLOR: set --ll-bg in the <style> to match your page background.
 -->
 
 <style>
@@ -18,7 +30,7 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    /* ↓ match this to your page/section background color */
+    /* ↓ Change to your page/section background colour */
     --ll-bg: #ffffff;
   }
 
@@ -45,7 +57,9 @@
     justify-content: center;
   }
 
-  .ll-item img {
+  /* shared rules for both <img> and inline <svg> logos */
+  .ll-item img,
+  .ll-item svg {
     display: block;
     width: auto;
     object-fit: contain;
@@ -62,7 +76,8 @@
     border-radius: 4px;
   }
 
-  .ll-item a:hover img {
+  .ll-item a:hover img,
+  .ll-item a:hover svg {
     opacity: 0.75;
     transform: scale(1.08);
   }
@@ -94,7 +109,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .ll-track { transform: translate3d(0, 0, 0) !important; }
-    .ll-item img { transition: none !important; }
+    .ll-item img,
+    .ll-item svg { transition: none !important; }
   }
 </style>
 
@@ -102,58 +118,66 @@
   <div class="ll-track">
     <ul class="ll-list">
 
-      <!-- ============================================================
-           YOUR LOGOS GO HERE
-           Each logo follows this pattern:
-
-           With a link:
-             <li class="ll-item">
-               <a href="https://yourlink.com" target="_blank" rel="noopener noreferrer">
-                 <img src="https://your-logo-url.com/logo.png" alt="Company Name">
-               </a>
-             </li>
-
-           Without a link:
-             <li class="ll-item">
-               <img src="https://your-logo-url.com/logo.png" alt="Company Name">
-             </li>
-
-           Demo logos below — replace src and href with your own:
-           ============================================================ -->
+      <!--
+        Demo logos (inline SVG — no external requests, never break).
+        Replace these <li> blocks with your own <img> tags when ready.
+      -->
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+1" alt="Company 1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 48" role="img" aria-label="Nova">
+            <polygon points="22,10 34,4 46,10 46,28 34,34 22,28" fill="#4f46e5"/>
+            <text x="34" y="21" font-family="system-ui,-apple-system,sans-serif" font-size="12" font-weight="800" fill="#fff" text-anchor="middle" dy="0.35em">N</text>
+            <text x="62" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#1e1b4b" text-anchor="start" dy="0.35em" letter-spacing="1">NOVA</text>
+          </svg>
         </a>
       </li>
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+2" alt="Company 2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 48" role="img" aria-label="Apex">
+            <polygon points="34,6 46,30 22,30" fill="#0ea5e9"/>
+            <text x="62" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#0c4a6e" text-anchor="start" dy="0.35em" letter-spacing="1">APEX</text>
+          </svg>
         </a>
       </li>
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+3" alt="Company 3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 48" role="img" aria-label="Crest">
+            <path d="M14,30 A20,20 0 0,1 54,30" stroke="#10b981" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <circle cx="34" cy="30" r="3" fill="#10b981"/>
+            <text x="66" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#064e3b" text-anchor="start" dy="0.35em" letter-spacing="1">CREST</text>
+          </svg>
         </a>
       </li>
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+4" alt="Company 4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48" role="img" aria-label="Flux">
+            <polygon points="34,6 46,22 38,22 42,42 22,26 30,26" fill="#f59e0b"/>
+            <text x="58" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#78350f" text-anchor="start" dy="0.35em" letter-spacing="1">FLUX</text>
+          </svg>
         </a>
       </li>
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+5" alt="Company 5">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 48" role="img" aria-label="Stride">
+            <rect x="14" y="16" width="32" height="16" rx="8" fill="#8b5cf6"/>
+            <polygon points="40,12 52,24 40,36" fill="#8b5cf6"/>
+            <text x="66" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#3b0764" text-anchor="start" dy="0.35em" letter-spacing="1">STRIDE</text>
+          </svg>
         </a>
       </li>
 
       <li class="ll-item">
         <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img src="https://placehold.co/140x48/e8e8e8/555555?text=Logo+6" alt="Company 6">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 48" role="img" aria-label="Orbit">
+            <circle cx="34" cy="24" r="16" stroke="#e11d48" stroke-width="4" fill="none"/>
+            <ellipse cx="34" cy="24" rx="8" ry="16" stroke="#e11d48" stroke-width="2.5" fill="none"/>
+            <text x="62" y="24" font-family="system-ui,-apple-system,sans-serif" font-size="15" font-weight="700" fill="#881337" text-anchor="start" dy="0.35em" letter-spacing="1">ORBIT</text>
+          </svg>
         </a>
       </li>
 
@@ -163,27 +187,30 @@
 
 <script>
 (function () {
-  /* ── CONFIGURATION ───────────────────────────────────────────────── */
-  var LOGO_HEIGHT  = 48;    /* logo image height in px                  */
-  var GAP          = 48;    /* space between logos in px                 */
-  var SPEED        = 80;    /* scroll speed in px/second                 */
-  var HOVER_SPEED  = 0;     /* speed while hovered (0 = pause, or lower) */
-  var SMOOTH_TAU   = 0.25;  /* easing smoothness (higher = slower ease)  */
-  /* ─────────────────────────────────────────────────────────────────── */
+  /* ── CONFIGURATION ───────────────────────────────────────────── */
+  var LOGO_HEIGHT = 48;   /* logo height in px                      */
+  var GAP         = 56;   /* gap between logos in px                 */
+  var SPEED       = 80;   /* scroll speed in px/second               */
+  var HOVER_SPEED = 0;    /* speed on hover — 0 pauses, or use lower */
+  var SMOOTH_TAU  = 0.25; /* easing amount (higher = slower ease-in) */
+  /* ───────────────────────────────────────────────────────────── */
 
   var wrap     = document.getElementById('ll-instance-1');
   var track    = wrap.querySelector('.ll-track');
   var origList = wrap.querySelector('.ll-list');
 
-  /* apply logo height and gap via inline style so config stays in one place */
   wrap.style.height = LOGO_HEIGHT * 1.5 + 'px';
-  var items = origList.querySelectorAll('.ll-item');
-  items.forEach(function (item, i) {
-    item.style.marginRight = GAP + 'px';
-  });
-  origList.querySelectorAll('img').forEach(function (img) {
-    img.style.height = LOGO_HEIGHT + 'px';
-  });
+
+  function applyStyles(list) {
+    list.querySelectorAll('.ll-item').forEach(function (item) {
+      item.style.marginRight = GAP + 'px';
+    });
+    list.querySelectorAll('img, svg').forEach(function (el) {
+      el.style.height = LOGO_HEIGHT + 'px';
+    });
+  }
+
+  applyStyles(origList);
 
   var seqWidth  = 0;
   var velocity  = 0;
@@ -200,32 +227,24 @@
     seqWidth = Math.ceil(origList.getBoundingClientRect().width);
     if (seqWidth === 0) return;
 
-    var containerWidth  = wrap.clientWidth;
-    var copiesNeeded    = Math.max(2, Math.ceil(containerWidth / seqWidth) + 2);
+    var needed = Math.max(2, Math.ceil(wrap.clientWidth / seqWidth) + 2);
 
-    for (var i = 0; i < copiesNeeded; i++) {
+    for (var i = 0; i < needed; i++) {
       var clone = origList.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
-      /* apply height/gap to cloned items too */
-      clone.querySelectorAll('.ll-item').forEach(function (item) {
-        item.style.marginRight = GAP + 'px';
-      });
-      clone.querySelectorAll('img').forEach(function (img) {
-        img.style.height = LOGO_HEIGHT + 'px';
-      });
+      applyStyles(clone);
       track.appendChild(clone);
       clones.push(clone);
     }
   }
 
-  function animate(timestamp) {
-    if (lastTime === null) lastTime = timestamp;
-    var dt = Math.max(0, timestamp - lastTime) / 1000;
-    lastTime = timestamp;
+  function animate(ts) {
+    if (lastTime === null) lastTime = ts;
+    var dt = Math.max(0, ts - lastTime) / 1000;
+    lastTime = ts;
 
-    var target        = isHovered ? HOVER_SPEED : SPEED;
-    var easingFactor  = 1 - Math.exp(-dt / SMOOTH_TAU);
-    velocity         += (target - velocity) * easingFactor;
+    var target = isHovered ? HOVER_SPEED : SPEED;
+    velocity  += (target - velocity) * (1 - Math.exp(-dt / SMOOTH_TAU));
 
     if (seqWidth > 0) {
       offset = ((offset + velocity * dt) % seqWidth + seqWidth) % seqWidth;
@@ -250,31 +269,18 @@
     resizeTimer = setTimeout(setup, 100);
   });
 
-  /* wait for images before measuring widths */
+  /* wait for any <img> logos to load before measuring */
   var imgs    = Array.prototype.slice.call(origList.querySelectorAll('img'));
   var pending = imgs.length;
 
-  function onReady() {
-    setup();
-    start();
-  }
-
-  if (pending === 0) {
-    onReady();
-    return;
-  }
+  if (pending === 0) { setup(); start(); return; }
 
   imgs.forEach(function (img) {
     if (img.complete) {
-      pending--;
-      if (pending === 0) onReady();
+      if (--pending === 0) { setup(); start(); }
     } else {
-      function done() {
-        pending--;
-        if (pending === 0) onReady();
-      }
-      img.addEventListener('load',  done, { once: true });
-      img.addEventListener('error', done, { once: true });
+      img.addEventListener('load',  function () { if (--pending === 0) { setup(); start(); } }, { once: true });
+      img.addEventListener('error', function () { if (--pending === 0) { setup(); start(); } }, { once: true });
     }
   });
 })();
